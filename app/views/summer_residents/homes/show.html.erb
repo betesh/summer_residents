@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Address:</b>
+  <%= @home.address %>
+</p>
+
+<p>
+  <b>Apartment:</b>
+  <%= @home.apartment %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @home.city %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @home.state %>
+</p>
+
+<p>
+  <b>Zip:</b>
+  <%= @home.zip %>
+</p>
+
+<p>
+  <b>Country:</b>
+  <%= @home.country %>
+</p>
+
+<p>
+  <b>Phone:</b>
+  <%= @home.phone %>
+</p>
+
+
+<%= link_to 'Edit', edit_home_path(@home) %> |
+<%= link_to 'Back', homes_path %>
