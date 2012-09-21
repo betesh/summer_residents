@@ -7,17 +7,20 @@ require "summer_residents/version"
 Gem::Specification.new do |s|
   s.name        = "summer_residents"
   s.version     = SummerResidents::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of SummerResidents."
-  s.description = "TODO: Description of SummerResidents."
+  s.authors     = ["Isaac Betesh"]
+  s.email       = ["iybetesh@gmail.com"]
+  s.homepage    = "http://www.github.com/betesh/summer_residents"
+  s.summary     = "A user data resources engine for bungalow colony CRMs"
+  s.description = `cat README.rdoc`
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 3.2.8"
+  s.add_dependency "easy_rails_authentication", "~> 0.0.1"
   # s.add_dependency "jquery-rails"
+
+  s.add_dependency "easy_rails_authentication", "~> 0.0.1"
 
   s.add_development_dependency "sqlite3"
 end
