@@ -18,6 +18,7 @@ module SummerResidents
     end
   
     test "should create resident" do
+      @resident.destroy
       assert_difference('Resident.count') do
         post :create, :resident => { :cell => @resident.cell, :first_name => @resident.first_name, :last_name => @resident.last_name, :user_id => @resident.user_id }
       end

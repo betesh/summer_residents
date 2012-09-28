@@ -18,6 +18,7 @@ module SummerResidents
     end
   
     test "should create family" do
+      @family.destroy
       assert_difference('Family.count') do
         post :create, family: { bungalow_id: @family.bungalow_id, father_id: @family.father_id, home_id: @family.home_id, mother_id: @family.mother_id }
       end

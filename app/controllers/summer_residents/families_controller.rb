@@ -42,7 +42,9 @@ module SummerResidents
     # POST /families.json
     def create
       mass_assign Family
-  
+      @family.father_id = params[:family][:father_id]
+      @family.mother_id = params[:family][:mother_id]
+
       respond_to do |format|
         if @family.save
           format.html { redirect_to @family, notice: 'Family was successfully created.' }

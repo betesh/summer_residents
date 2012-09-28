@@ -42,6 +42,7 @@ module SummerResidents
     # POST /residents.json
     def create
       mass_assign Resident
+      @resident.user_id = params[:resident][:user_id]
   
       respond_to do |format|
         if @resident.save
