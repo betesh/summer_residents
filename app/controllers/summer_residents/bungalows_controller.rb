@@ -1,27 +1,5 @@
 module SummerResidents
   class BungalowsController < SummerResidentsController
-    # GET /bungalows
-    # GET /bungalows.json
-    def index
-      @bungalows = Bungalow.all
-  
-      respond_to do |format|
-        format.html # index.html.erb
-        format.json { render :json => @bungalows }
-      end
-    end
-  
-    # GET /bungalows/1
-    # GET /bungalows/1.json
-    def show
-      @bungalow = Bungalow.find(params[:id])
-  
-      respond_to do |format|
-        format.html # show.html.erb
-        format.json { render :json => @bungalow }
-      end
-    end
-  
     # GET /bungalows/new
     # GET /bungalows/new.json
     def new
@@ -77,7 +55,7 @@ module SummerResidents
       @bungalow.destroy
   
       respond_to do |format|
-        format.html { redirect_to bungalows_url }
+        format.html { render nothing: true }
         format.json { head :no_content }
       end
     end

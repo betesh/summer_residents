@@ -33,11 +33,6 @@ module SummerResidents
       end
     end
   
-    # GET /families/1/edit
-    def edit
-      @family = Family.find(params[:id])
-    end
-  
     # POST /families
     # POST /families.json
     def create
@@ -51,22 +46,6 @@ module SummerResidents
           format.json { render json: @family, status: :created, location: @family }
         else
           format.html { render action: "new" }
-          format.json { render json: @family.errors, status: :unprocessable_entity }
-        end
-      end
-    end
-  
-    # PUT /families/1
-    # PUT /families/1.json
-    def update
-      mass_assign Family
-  
-      respond_to do |format|
-        if @family.save
-          format.html { redirect_to @family, notice: 'Family was successfully updated.' }
-          format.json { head :no_content }
-        else
-          format.html { render action: "edit" }
           format.json { render json: @family.errors, status: :unprocessable_entity }
         end
       end

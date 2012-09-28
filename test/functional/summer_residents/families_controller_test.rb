@@ -31,16 +31,6 @@ module SummerResidents
       assert_response :success
     end
   
-    test "should get edit" do
-      get :edit, id: @family
-      assert_response :success
-    end
-  
-    test "should update family" do
-      put :update, id: @family, family: { bungalow_id: @family.bungalow_id, father_id: @family.father_id, home_id: @family.home_id, mother_id: @family.mother_id }
-      assert_redirected_to family_path(assigns(:family))
-    end
-  
     test "should destroy family" do
       assert_difference('Family.count', -1) do
         delete :destroy, id: @family

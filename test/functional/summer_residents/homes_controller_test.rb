@@ -6,12 +6,6 @@ module SummerResidents
       @home = homes(:white_shul)
     end
   
-    test "should get index" do
-      get :index
-      assert_response :success
-      assert_not_nil assigns(:homes)
-    end
-  
     test "should get new" do
       get :new
       assert_response :success
@@ -23,11 +17,6 @@ module SummerResidents
       end
   
       assert_redirected_to home_path(assigns(:home))
-    end
-  
-    test "should show home" do
-      get :show, :id => @home
-      assert_response :success
     end
   
     test "should get edit" do
@@ -45,7 +34,7 @@ module SummerResidents
         delete :destroy, :id => @home
       end
   
-      assert_redirected_to homes_path
+      assert_response :success
     end
   end
 end

@@ -1,27 +1,5 @@
 module SummerResidents
   class HomesController < SummerResidentsController
-    # GET /homes
-    # GET /homes.json
-    def index
-      @homes = Home.all
-  
-      respond_to do |format|
-        format.html # index.html.erb
-        format.json { render :json => @homes }
-      end
-    end
-  
-    # GET /homes/1
-    # GET /homes/1.json
-    def show
-      @home = Home.find(params[:id])
-  
-      respond_to do |format|
-        format.html # show.html.erb
-        format.json { render :json => @home }
-      end
-    end
-  
     # GET /homes/new
     # GET /homes/new.json
     def new
@@ -77,7 +55,7 @@ module SummerResidents
       @home.destroy
   
       respond_to do |format|
-        format.html { redirect_to homes_url }
+        format.html { render nothing: true }
         format.json { head :no_content }
       end
     end
