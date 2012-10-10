@@ -1,4 +1,6 @@
 SummerResidents::Engine.routes.draw do
+  resources :families
+
   resources :homes
 
   resources :bungalows

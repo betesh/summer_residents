@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  home_id: 1
+  bungalow_id: 1
+  father_id: 1
+  mother_id: 1
+
+two:
+  home_id: 1
+  bungalow_id: 1
+  father_id: 1
+  mother_id: 1
