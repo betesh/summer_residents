@@ -47,6 +47,9 @@ module SummerResidents
 
       respond_to do |format|
         if @family.save
+          [@family.father, @family.mother].each { |p|
+            EasyRailsAuthentication::AuthenticationHelper.SendPasswordInitializationEmailTo p.email
+          }
           format.html { redirect_to families_url, notice: 'Family was successfully created.' }
           format.json { render json: @family, status: :created, location: @family }
         else

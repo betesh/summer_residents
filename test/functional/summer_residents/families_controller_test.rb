@@ -58,6 +58,31 @@ module SummerResidents
       assert_redirected_to families_path
     end
 
+    def expect_each_new_user_to_receive_email &block
+      assert_difference('ActionMailer::Base.deliveries.size', 2) do
+        yield
+      end
+      @mother_email, @father_email = ActionMailer::Base.deliveries.pop(2)
+      @father_email, @mother_email = [@mother_email, @father_email] if ([@father.email] == @mother_email.to)
+    end
+
+    def assert_email_contains regex, email
+      assert email.body =~ regex, "Mail body expected to match: #{regex}\nActual: <<<<<\n#{email.body}\n>>>>>"
+    end
+
+    test "when creating family, each parent shuld receive a password initializatin email" do
+      assert_difference('PasswordRecovery.count', 2) do
+        expect_each_new_user_to_receive_email do
+          post :create, father: @father_hash, mother: @mother_hash
+        end
+      end
+      assert_equal [@father.email], @father_email.to
+      assert_equal [@mother.email], @mother_email.to
+      email_line_intro = "Before you can log into your account, you must set your password by following this link: http://#{Rails.application.config.action_mailer.default_url_options[:host]}/reset_password\\?uuid="
+      assert_email_contains /^#{email_line_intro}#{User.find_by_email(@mother.email).password_recovery.reset_link}\.$/, @mother_email
+      assert_email_contains /^#{email_line_intro}#{User.find_by_email(@father.email).password_recovery.reset_link}\.$/, @father_email
+    end
+
     def should_fail_to_create_family_from parents
       @family.destroy
       assert_no_difference('Family.count') do
