@@ -1,3 +1,4 @@
+###
 // This is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
 //
@@ -12,5 +13,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require center_html_elements
 //= require easy_rails_authentication
+//= require_tree ../
 //= require_tree .
+###
