@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  name: MyString
-  unit: MyString
-  phone: 1
+estate:
+  name: MillionaireEsates
+  unit: 26
+  phone: 8459999999
 
-two:
-  name: MyString
-  unit: MyString
-  phone: 1
+acres:
+  name: CountrysideAcres
+  unit: 18
+  phone: 5168888888

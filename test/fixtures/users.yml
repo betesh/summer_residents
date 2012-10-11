@@ -1,0 +1,28 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+mom_user:
+  email: "mom@wwmp.com"
+  password_digest: "$2a$10$Ua36a1Mzjx3SmwvOSzak3OJepBiW7NShdw1G90TeC9TBXriGcjvPi"
+  # password: "1"
+  admin: true
+
+dad_user:
+  email: "dad@wwmp.com"
+  password_digest: "$2a$10$Ua36a1Mzjx3SmwvOSzak3OJepBiW7NShdw1G90TeC9TBXriGcjvPi"
+  # password: "1"
+
+joe_user:
+  email: "joe@senate.gov"
+  password_digest: "$2a$10$Ua36a1Mzjx3SmwvOSzak3OJepBiW7NShdw1G90TeC9TBXriGcjvPi"
+  # password: "1"
+  admin: true
+
+hadassah_user:
+  email: "hadassah@senate.gov"
+  password_digest: "$2a$10$Ua36a1Mzjx3SmwvOSzak3OJepBiW7NShdw1G90TeC9TBXriGcjvPi"
+  # password: "1"
+
+jose_user:
+  email: "jose@sunshine.do"
+  password_digest: "$2a$10$Ua36a1Mzjx3SmwvOSzak3OJepBiW7NShdw1G90TeC9TBXriGcjvPi"
+  # password: "1"

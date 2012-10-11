@@ -3,7 +3,7 @@ require 'test_helper'
 module SummerResidents
   class HomesControllerTest < ActionController::TestCase
     setup do
-      @home = homes(:one)
+      @home = homes(:white_shul)
     end
   
     test "should get index" do

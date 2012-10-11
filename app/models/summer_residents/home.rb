@@ -1,5 +1,7 @@
 module SummerResidents
   class Home < ActiveRecord::Base
-    attr_accessible :address, :apartment, :city, :country, :phone, :state, :zip
+    has_one :family, :dependent => :nullify
+    validates_presence_of :address, :city, :state
+    attr_accessible :apartment, :country, :phone, :zip
   end
 end

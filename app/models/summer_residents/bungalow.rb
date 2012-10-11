@@ -1,5 +1,7 @@
 module SummerResidents
   class Bungalow < ActiveRecord::Base
-    attr_accessible :name, :phone, :unit
+    has_one :family, :dependent => :nullify
+    validates_presence_of :name
+    attr_accessible :phone, :unit
   end
 end

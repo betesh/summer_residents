@@ -41,7 +41,7 @@ module SummerResidents
     # POST /families
     # POST /families.json
     def create
-      @family = Family.new(params[:family])
+      mass_assign Family
   
       respond_to do |format|
         if @family.save
@@ -57,10 +57,10 @@ module SummerResidents
     # PUT /families/1
     # PUT /families/1.json
     def update
-      @family = Family.find(params[:id])
+      mass_assign Family
   
       respond_to do |format|
-        if @family.update_attributes(params[:family])
+        if @family.save
           format.html { redirect_to @family, notice: 'Family was successfully updated.' }
           format.json { head :no_content }
         else

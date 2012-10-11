@@ -41,7 +41,7 @@ module SummerResidents
     # POST /homes
     # POST /homes.json
     def create
-      @home = Home.new(params[:home])
+      mass_assign Home
   
       respond_to do |format|
         if @home.save
@@ -57,10 +57,10 @@ module SummerResidents
     # PUT /homes/1
     # PUT /homes/1.json
     def update
-      @home = Home.find(params[:id])
+      mass_assign Home
   
       respond_to do |format|
-        if @home.update_attributes(params[:home])
+        if @home.save
           format.html { redirect_to @home, :notice => 'Home was successfully updated.' }
           format.json { head :no_content }
         else

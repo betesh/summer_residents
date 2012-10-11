@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  home_id: 1
-  bungalow_id: 1
-  father_id: 1
-  mother_id: 1
+green:
+  home: shaare_zion
+  bungalow: acres
+  father: dad
+  mother: mom
 
-two:
-  home_id: 1
-  bungalow_id: 1
-  father_id: 1
-  mother_id: 1
+lieberman:
+  home: white_shul
+  bungalow: estate
+  father: joe
+  mother: hadassah

@@ -3,7 +3,7 @@ require 'test_helper'
 module SummerResidents
   class FamiliesControllerTest < ActionController::TestCase
     setup do
-      @family = families(:one)
+      @family = families(:lieberman)
     end
   
     test "should get index" do

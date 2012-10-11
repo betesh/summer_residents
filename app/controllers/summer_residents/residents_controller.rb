@@ -41,7 +41,7 @@ module SummerResidents
     # POST /residents
     # POST /residents.json
     def create
-      @resident = Resident.new(params[:resident])
+      mass_assign Resident
   
       respond_to do |format|
         if @resident.save
@@ -57,10 +57,10 @@ module SummerResidents
     # PUT /residents/1
     # PUT /residents/1.json
     def update
-      @resident = Resident.find(params[:id])
+      mass_assign Resident
   
       respond_to do |format|
-        if @resident.update_attributes(params[:resident])
+        if @resident.save
           format.html { redirect_to @resident, :notice => 'Resident was successfully updated.' }
           format.json { head :no_content }
         else

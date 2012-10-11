@@ -1,19 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  address: MyString
-  apartment: MyString
-  city: MyString
-  state: MyString
-  zip: MyString
-  country: MyString
-  phone: 1
+shaare_zion:
+  address: 2030 Ocean Parkway
+  apartment: 1
+  city: Brooklyn
+  state: NY
+  zip: 11223
+  country: USA
+  phone: 7187777777
 
-two:
-  address: MyString
-  apartment: MyString
-  city: MyString
-  state: MyString
-  zip: MyString
-  country: MyString
-  phone: 1
+white_shul:
+  address: 728 Empire Ave
+  apartment: 2
+  city: Far Rockaway
+  state: NY
+  zip: 11691
+  country: USA
+  phone: 9176666666

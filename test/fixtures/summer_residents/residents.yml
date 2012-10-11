@@ -1,13 +1,31 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  user_id: 1
-  first_name: MyString
-  last_name: MyString
-  cell: 1
+mom:
+  user: mom_user
+  first_name: Shaindy
+  last_name: Green
+  cell: 9735555555
 
-two:
-  user_id: 1
-  first_name: MyString
-  last_name: MyString
-  cell: 1
+dad:
+  user: dad_user
+  first_name: Kenneth
+  last_name: Green
+  cell: 7324444444
+
+joe:
+  user: joe_user
+  first_name: Joe
+  last_name: Lieberman
+  cell: 2033333333
+
+hadassah:
+  user: hadassah_user
+  first_name: Hadassah
+  last_name: Lieberman
+  cell: 8602222222
+
+jose:
+  user: jose_user
+  first_name: Jose
+  last_name: White
+  cell: 8295551111
