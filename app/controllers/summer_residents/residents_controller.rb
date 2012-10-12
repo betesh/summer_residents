@@ -24,12 +24,10 @@ module SummerResidents
     # DELETE /residents/1
     # DELETE /residents/1.json
     def destroy
-      @resident = Resident.find(params[:id])
-      @resident.destroy
+      Resident.find(params[:id]).destroy
   
       respond_to do |format|
-        format.html { render nothing: true }
-        format.json { head :no_content }
+        format.js { render nothing: true }
       end
     end
   end

@@ -51,12 +51,10 @@ module SummerResidents
     # DELETE /homes/1
     # DELETE /homes/1.json
     def destroy
-      @home = Home.find(params[:id])
-      @home.destroy
+      Home.find(params[:id]).destroy
   
       respond_to do |format|
-        format.html { render nothing: true }
-        format.json { head :no_content }
+        format.js { render nothing: true }
       end
     end
   end

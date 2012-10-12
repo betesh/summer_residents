@@ -33,10 +33,10 @@ module SummerResidents
   
     test "should destroy family" do
       assert_difference('Family.count', -1) do
-        delete :destroy, id: @family
+        delete :destroy, id: @family, format: :js
       end
   
-      assert_redirected_to families_path
+      assert_response :success
     end
   end
 end

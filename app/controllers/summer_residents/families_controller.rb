@@ -54,12 +54,10 @@ module SummerResidents
     # DELETE /families/1
     # DELETE /families/1.json
     def destroy
-      @family = Family.find(params[:id])
-      @family.destroy
+      Family.find(params[:id]).destroy
   
       respond_to do |format|
-        format.html { redirect_to families_url }
-        format.json { head :no_content }
+        format.js { render nothing: true }
       end
     end
   end

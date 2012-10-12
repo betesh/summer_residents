@@ -31,7 +31,7 @@ module SummerResidents
   
     test "should destroy bungalow" do
       assert_difference('Bungalow.count', -1) do
-        delete :destroy, :id => @bungalow
+        delete :destroy, :id => @bungalow, format: :js
       end
   
       assert_response :success
