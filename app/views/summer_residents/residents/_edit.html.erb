@@ -1,0 +1,13 @@
+<%= form_tag '', class: "update_resident_form", id: "update_resident_form_#{r.id}" do %>
+  <%= hidden_field_tag "type", type, id: "resident_type_#{r.id}" %>
+  <table>
+    <tr><td class="label_td"><%= label_tag :first_name %>:</td><td><%= text_field_tag :first_name, r.first_name %><td></tr>
+    <tr><td class="label_td"><%= label_tag :last_name %>:</td><td><%= text_field_tag :last_name, r.last_name %></td></tr>
+    <tr><td class="label_td"><%= label_tag :cell %>:</td><td><%= telephone_field_tag :cell, r.cell, size: 10, maxlength: 10 %></td></tr>
+    <tr><td class="label_td"><%= label_tag :email %>:</td><td><%= email_field_tag :email, r.email, size: 25 %></td></tr>
+    <tr><td colspan=2 class="update_link_td">
+      <%= link_to "Save", '#', class: :update_resident_link, id: "update_resident_link_#{r.id}" %>&emsp;&emsp;
+      <%= link_to "Cancel", '#', class: :show_resident_link, id: "show_resident_link_#{r.id}" %>
+    </td></tr>
+  </table>
+<% end %>

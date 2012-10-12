@@ -1,0 +1,4 @@
+$('div#summer_residents_family_<%= @resident.family.id %> div#error_explanation').remove();
+$('div#summer_residents_family_<%= @resident.family.id %>').prepend(
+  "<%= escape_javascript render :partial => 'errors', :locals => { errors: @resident.errors } %>"
+);

@@ -3,18 +3,24 @@ module SummerResidents
     # GET /residents/1/edit
     def edit
       @resident = Resident.find(params[:id])
+      @type = params[:type]
       respond_to do |format|
-        format.js { render action: :edit }
+        format.js { render action: params[:cancel] ? :show : :edit }
       end
     end
   
     # PUT /residents/1
     # PUT /residents/1.json
     def update
-      mass_assign Resident
-  
+      @resident = Resident.find(params[:id])
+      [:first_name, :last_name, :cell].each { |f|
+        @resident.__send__ "#{f}=", params[f]
+      }
+      @resident.user.email = params[:email]
+      @type = params[:type]
+
       respond_to do |format|
-        format.js { render (@resident.save ? { action: :show } : { nothing: true}) }
+        format.js { render action: (@resident.save ? :show : :errors) }
       end
     end
   

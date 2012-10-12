@@ -1,0 +1,4 @@
+$('div#summer_residents_resident_<%= @resident.id %>').html(
+  "<%= escape_javascript render :partial => 'show', :locals => { r: @resident, type: @type } %>"
+);
+$('div#summer_residents_family_<%= @resident.family.id %> div#error_explanation').remove();

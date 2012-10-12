@@ -1,0 +1,9 @@
+<% if errors.any? %>
+  <%= content_tag :div, id: :error_explanation do %>
+    <%= content_tag :h2 do "Failed to save due to #{pluralize(errors.count, "error")} errors:"; end %>
+      <%= content_tag :ul do %>
+        <% errors.full_messages.each do |msg| %><li><%= msg %></li>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
