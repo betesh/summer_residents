@@ -1,4 +1,16 @@
-/*
-  Place all the styles related to the matching controller here.
-  They will automatically be included in application.css.
-*/
+h1.inline_header {
+  display:inline;
+}
+div.summer_residents_family {
+  padding:6px;
+  border:1px solid black;
+  text-align:left;
+  display:inline-block;
+  a.delete_family_link {
+    display:block;
+  }
+  div#error_explanation {
+    width:auto;
+    display:inline-block;
+  }
+}

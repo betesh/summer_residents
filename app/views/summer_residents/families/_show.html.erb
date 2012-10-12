@@ -1,0 +1,10 @@
+<%= model_tag family do %>
+  <% { Father: family.father, Mother: family.mother }.each do |n, p| %>
+    <%= model_tag p do %>
+      <%= render :partial => 'summer_residents/residents/show', :locals => { r: p,  type: n} %>
+    <% end %>
+  <% end %>
+  <% if @index_action then %>
+    <%= link_to "Delete this family", '#', class: :delete_family_link, id: "delete_family_link_#{family.id}" %>
+  <% end %>
+<% end %>

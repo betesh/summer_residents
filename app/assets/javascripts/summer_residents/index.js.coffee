@@ -18,3 +18,5 @@
 //= require_tree ../
 //= require_tree .
 ###
+$ ->
+  $('div.summer_residents').keep_centered()

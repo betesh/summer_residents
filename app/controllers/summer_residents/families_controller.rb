@@ -3,6 +3,7 @@ module SummerResidents
     # GET /families
     # GET /families.json
     def index
+      @index_action = true
       @families = Family.all
   
       respond_to do |format|
@@ -22,27 +23,28 @@ module SummerResidents
       end
     end
   
-    # GET /families/new
-    # GET /families/new.json
     def new
       @family = Family.new
-  
-      respond_to do |format|
-        format.html # new.html.erb
-        format.json { render json: @family }
-      end
     end
   
     # POST /families
     # POST /families.json
     def create
-      mass_assign Family
-      @family.father_id = params[:family][:father_id]
-      @family.mother_id = params[:family][:mother_id]
+      @family = Family.new
+      [:father, :mother].each do |p|
+        parent = Resident.new
+        @family.__send__ "#{p}=", parent
+
+        pp = params[p]
+        parent.user = User.initialize_without_password pp[:email]
+        [:first_name, :last_name].each { |col|
+          parent.__send__ "#{col}=", pp[col]
+        }
+      end
 
       respond_to do |format|
         if @family.save
-          format.html { redirect_to @family, notice: 'Family was successfully created.' }
+          format.html { redirect_to families_url, notice: 'Family was successfully created.' }
           format.json { render json: @family, status: :created, location: @family }
         else
           format.html { render action: "new" }

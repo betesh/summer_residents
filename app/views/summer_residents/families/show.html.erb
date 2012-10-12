@@ -1,24 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>Home:</b>
-  <%= @family.home_id %>
-</p>
-
-<p>
-  <b>Bungalow:</b>
-  <%= @family.bungalow_id %>
-</p>
-
-<p>
-  <b>Father:</b>
-  <%= @family.father_id %>
-</p>
-
-<p>
-  <b>Mother:</b>
-  <%= @family.mother_id %>
-</p>
-
-
-<%= link_to 'Back', families_path %>
+<%= engine_tag do %>
+  <%= render :partial => 'show', :object => @family, :as => :family %><br />
+  <%= link_to 'Back', url_for(:back) %>
+<% end %>

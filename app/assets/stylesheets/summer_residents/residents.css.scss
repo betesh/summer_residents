@@ -1,4 +1,13 @@
-/*
-  Place all the styles related to the matching controller here.
-  They will automatically be included in application.css.
-*/
+div.summer_residents_resident {
+  padding:6px;
+  border:1px dotted black;
+  text-align:left;
+  form.update_resident_form {
+    td.label_td {
+      text-align:right;
+    }
+    td.update_link_td {
+      text-align:center;
+    }
+  }
+}

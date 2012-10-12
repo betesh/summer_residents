@@ -1,33 +1,29 @@
-<%= form_for(@family) do |f| %>
-  <% if @family.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@family.errors.count, "error") %> prohibited this family from being saved:</h2>
+<%= engine_tag do %>
+  <%= render :partial => 'errors', :object => @family, :as => :family if @family %>
 
-      <ul>
-      <% @family.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+  <%= form_tag families_path do %>
+    <table>
+      <tr><th colspan=4>All fields are required</th></tr>
+      <tr>
+        <th></th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+      </tr>
+      <% [:father, :mother].each do |p| %>
+      <% resident = belongs_to_or_new(@family, p, SummerResidents::Resident) %>
+        <tr>
+          <td><%= p.capitalize %>:</td>
+          <% [:first, :last].each do |n| %>
+            <td><%= text_field_tag "#{p}[#{n}_name]", resident.__send__("#{n}_name"), :size => 16 %></td>
+          <% end %>
+          <td><%= email_field_tag "#{p}[email]", resident.user ? resident.email : "", :size => 16 %></td>
+        </tr>
       <% end %>
-      </ul>
-    </div>
+      <tr>
+        <th />
+        <th colspan=3><%= submit_tag "Save" %>&emsp;<%= link_to "Cancel", families_path %></th>
+      </tr>
+    </table>
   <% end %>
-
-  <div class="field">
-    <%= f.label :home_id %><br />
-    <%= f.number_field :home_id %>
-  </div>
-  <div class="field">
-    <%= f.label :bungalow_id %><br />
-    <%= f.number_field :bungalow_id %>
-  </div>
-  <div class="field">
-    <%= f.label :father_id %><br />
-    <%= f.number_field :father_id %>
-  </div>
-  <div class="field">
-    <%= f.label :mother_id %><br />
-    <%= f.number_field :mother_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>
