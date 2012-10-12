@@ -3,6 +3,9 @@ module SummerResidents
     # GET /residents/1/edit
     def edit
       @resident = Resident.find(params[:id])
+      respond_to do |format|
+        format.js { render action: :edit }
+      end
     end
   
     # PUT /residents/1
@@ -11,13 +14,7 @@ module SummerResidents
       mass_assign Resident
   
       respond_to do |format|
-        if @resident.save
-          format.html { redirect_to @resident, :notice => 'Resident was successfully updated.' }
-          format.json { head :no_content }
-        else
-          format.html { render :action => "edit" }
-          format.json { render :json => @resident.errors, :status => :unprocessable_entity }
-        end
+        format.js { render (@resident.save ? { action: :show } : { nothing: true}) }
       end
     end
   

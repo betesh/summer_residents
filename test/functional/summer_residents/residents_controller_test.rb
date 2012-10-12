@@ -7,13 +7,15 @@ module SummerResidents
     end
   
     test "should get edit" do
-      get :edit, :id => @resident
+      get :edit, :id => @resident, format: :js
       assert_response :success
+      assert_template :edit
     end
   
     test "should update resident" do
-      put :update, :id => @resident, :resident => { :cell => @resident.cell, :first_name => @resident.first_name, :last_name => @resident.last_name, :user_id => @resident.user_id }
-      assert_redirected_to resident_path(assigns(:resident))
+      put :update, :id => @resident, :resident => { :cell => @resident.cell, :first_name => @resident.first_name, :last_name => @resident.last_name, :user_id => @resident.user_id }, format: :js
+      assert_response :success
+      assert_template :show
     end
   
     test "should destroy resident" do
