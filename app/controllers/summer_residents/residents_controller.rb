@@ -1,5 +1,8 @@
 module SummerResidents
   class ResidentsController < SummerResidentsController
+    skip_before_filter :require_administrator_priveleges, only: [:edit, :update]
+    before_filter :require_administrator_priveleges_if_different_user, only: [:edit, :update]
+
     # GET /residents/1/edit
     def edit
       @resident = Resident.find(params[:id])

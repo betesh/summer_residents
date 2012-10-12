@@ -1,5 +1,8 @@
 module SummerResidents
   class FamiliesController < SummerResidentsController
+    skip_before_filter :require_administrator_priveleges, only: [:show]
+    before_filter :require_administrator_priveleges_if_different_user, only: [:show]
+
     # GET /families
     # GET /families.json
     def index
