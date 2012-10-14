@@ -1,5 +1,5 @@
 module SummerResidents
-  class ApplicationController < ActionController::Base
+  class SummerResidentsController < ::ApplicationController
   protected
     include EasyRailsAuthentication::AuthenticationHelper
     before_filter :require_authentication

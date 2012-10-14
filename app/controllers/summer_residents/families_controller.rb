@@ -1,7 +1,5 @@
-require_dependency "summer_residents/application_controller"
-
 module SummerResidents
-  class FamiliesController < ApplicationController
+  class FamiliesController < SummerResidentsController
     # GET /families
     # GET /families.json
     def index

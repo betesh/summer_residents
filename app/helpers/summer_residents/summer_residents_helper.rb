@@ -1,4 +1,4 @@
 module SummerResidents
-  module ApplicationHelper
+  module SummerResidentsHelper
   end
 end
