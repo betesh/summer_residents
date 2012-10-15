@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    summer_residents (0.0.1)
+    summer_residents (0.0.2)
       easy_rails_authentication (~> 0.0.1)
       easy_rails_authentication (~> 0.0.1)
       rails (~> 3.2.8)
