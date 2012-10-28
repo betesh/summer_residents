@@ -9,6 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require summer_residents
+ *= require summer_residents/scaffold
  *= require_self
  *= require_tree .
  */
