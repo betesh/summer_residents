@@ -19,6 +19,7 @@ module SummerResidents
     end
   
     test "should get add_user_info" do
+      @family.destroy
       get :add_user_info
       assert_response :success
       family = assigns(:family)
@@ -28,6 +29,11 @@ module SummerResidents
       assert_nil family.father.id
       assert_equal users(:joe_user), family.father.user
       assert_select 'input#adding_user_info[value="1"]', 1
+    end
+
+    test "add_user_info should redirect to show if family already exists" do
+      get :add_user_info
+      assert_redirected_to family_path(@family.id)
     end
 
     test "should show family" do

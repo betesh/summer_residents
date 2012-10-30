@@ -1,5 +1,6 @@
 <%= model_tag family do %>
-  <% { Father: family.father, Mother: family.mother }.each do |n, p| %>
+  <% { Father: family.father, Mother: family.mother }.each do |n, r| %>
+    <% p = new_if_nil(r)  %>
     <%= model_tag p do %>
       <%= render :partial => 'summer_residents/residents/show', :locals => { r: p,  type: n} %>
     <% end %>

@@ -1,8 +1,11 @@
+require SummerResidents::Engine.config.root + 'app' + 'models' + 'user'
+
 module SummerResidents
   class FamiliesController < SummerResidentsController
     skip_before_filter :require_administrator_priveleges, only: [:show, :create, :add_user_info]
     before_filter :require_administrator_priveleges_if_different_user, only: [:show]
     before_filter :require_administrator_priveleges_if_not_added_user_info, only: [:create]
+    before_filter :redirect_to_show_if_current_user_has_a_family, only: [:add_user_info]
 
     # GET /families
     # GET /families.json
@@ -111,6 +114,10 @@ private
         parent.__send__ "#{col}=", pp[col]
       }
       parent
+    end
+
+    def redirect_to_show_if_current_user_has_a_family
+      redirect_to family_url(@current_user.resident.family.id) if (@current_user.resident && @current_user.resident.family)
     end
   end
 end
