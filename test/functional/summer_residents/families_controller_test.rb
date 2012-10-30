@@ -290,5 +290,40 @@ module SummerResidents
       should_fail_to_create_family_from father: @father_hash, mother: { first_name: @mother.first_name, last_name: @mother.last_name, email: "123" }
       should_fail_validation_for_one_reason :"mother-email", "does not appear to be valid"
     end
+
+    def expect_only_one_resident_was_created
+      @fam = assigns(:family)
+      assert_equal 0, @fam.errors.count, @fam.errors.messages.inspect
+      assert @fam.id
+      father = @fam.father
+      assert father
+      assert father.id
+      assert father.user
+      mother = @fam.mother
+      assert_nil mother
+      [:first_name, :last_name].each { |attr|
+        assert_equal @father.__send__(attr), father.__send__(attr)
+      }
+      assert_equal @user.email, father.email
+    end
+
+    test "should create resident if user already exists and only one resident specified" do
+      given_a_user_with_no_family_info
+      @user.resident.destroy
+      @mother_hash.each { |k,v|
+        @mother_hash[k] = ""
+      }
+      assert_difference('Family.count') do
+        assert_difference('Resident.count') do
+          assert_no_difference('User.count') do
+            assert_no_difference('ActionMailer::Base.deliveries.size') do
+              when_creating_family_from_user
+            end
+          end
+        end
+      end
+      expect_only_one_resident_was_created
+      assert_redirected_to family_path(@fam.id)
+    end
   end
 end

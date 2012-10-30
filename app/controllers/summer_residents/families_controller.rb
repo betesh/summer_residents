@@ -48,22 +48,15 @@ module SummerResidents
     def create
       @family = Family.new
       [:father, :mother].each do |p|
-        parent = Resident.new
-        pp = params[p]
-        user_exists = added_parent_info? pp
-        parent.user = user_exists ? @current_user : User.initialize_without_password(pp[:email])
-        parent = @current_user.resident if user_exists && @current_user.resident
-        @family.__send__ "#{p}=", parent
+        pp = params[p].keep_if { |k,v| !v.blank? }
 
-        [:first_name, :last_name].each { |col|
-          parent.__send__ "#{col}=", pp[col]
-        }
+        @family.__send__ "#{p}=", (pp.blank? ? nil : get_user_from_params(pp))
       end
 
       respond_to do |format|
         if @family.save
           uninitialized_pw = User.initialize_without_password("").password_digest
-          [@family.father, @family.mother].each { |p|
+          [@family.father, @family.mother].select { |p| p }.each { |p|
             user_is_new = p.user.password_digest == uninitialized_pw
             EasyRailsAuthentication::AuthenticationHelper.SendPasswordInitializationEmailTo p.email if user_is_new
           }
@@ -107,6 +100,17 @@ private
 
     def require_administrator_priveleges_if_not_added_user_info
       require_administrator_priveleges unless added_user_info?
+    end
+
+    def get_user_from_params pp
+      parent = Resident.new
+      user_exists = added_parent_info? pp
+      parent.user = user_exists ? @current_user : User.initialize_without_password(pp[:email])
+      parent = @current_user.resident if user_exists && @current_user.resident
+      [:first_name, :last_name].each { |col|
+        parent.__send__ "#{col}=", pp[col]
+      }
+      parent
     end
   end
 end
