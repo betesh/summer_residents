@@ -10,8 +10,9 @@
         <th>Last name</th>
         <th>Email</th>
       </tr>
+      <%= hidden_field_tag "adding_user_info", 1 if adding_user_info? %>
       <% [:father, :mother].each do |p| %>
-      <% resident = belongs_to_or_new(@family, p, SummerResidents::Resident) %>
+      <% resident = current_or_new(p) %>
         <tr>
           <td><%= p.capitalize %>:</td>
           <% [:first, :last].each do |n| %>

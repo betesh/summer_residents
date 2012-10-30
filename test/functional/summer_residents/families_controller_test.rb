@@ -18,6 +18,18 @@ module SummerResidents
       assert_response :success
     end
   
+    test "should get add_user_info" do
+      get :add_user_info
+      assert_response :success
+      family = assigns(:family)
+      assert_template :new
+      assert_nil family.mother
+      assert family.father
+      assert_nil family.father.id
+      assert_equal users(:joe_user), family.father.user
+      assert_select 'input#adding_user_info[value="1"]', 1
+    end
+
     test "should show family" do
       get :show, id: @family
       assert_response :success
@@ -46,6 +58,97 @@ module SummerResidents
       @mother_hash = { first_name: @mother.first_name, last_name: @mother.last_name, email: @mother.email }
     end
 
+    EMAIL_LINE_INTRO = "Before you can log into your account, you must set your password by following this link: http://#{Rails.application.config.action_mailer.default_url_options[:host]}/reset_password\\?uuid="
+
+    def verify_expected_email parent, email
+      assert_equal [parent.email], email.to
+      assert_email_contains /^#{EMAIL_LINE_INTRO}#{User.find_by_email(parent.email).password_recovery.reset_link}\.$/, email
+    end
+
+    def given_a_user_with_no_family_info
+      @user = users(:jose_user)
+      @controller.log_in_as @user
+    end
+
+    def when_creating_family_from_user adding_user_info=true
+      args = { mother: @mother_hash, father: { first_name: @father.first_name, last_name: @father.last_name, email: @user.email } }
+      args[:adding_user_info] = "1" if adding_user_info
+      post :create, args
+    end
+
+    def when_adding_family_info
+      assert_difference('Family.count') do
+        assert_difference('User.count') do
+          when_creating_family_from_user
+        end
+      end
+    end
+
+    def expect_the_correct_family
+      @fam = assigns(:family)
+      assert_equal 0, @fam.errors.count, @fam.errors.messages.inspect
+      father = @fam.father
+      assert father
+      assert father.user
+      mother = @fam.mother
+      assert mother
+      assert mother.user
+      [:first_name, :last_name].each { |attr|
+        assert_equal @father.__send__(attr), father.__send__(attr)
+        assert_equal @mother.__send__(attr), mother.__send__(attr)
+      }
+      assert_equal @mother.email, mother.email
+      assert_equal @user.email, father.email
+    end
+
+    def should_fail_to_create_family_from_user adding_user_info=true
+      assert_no_difference('Family.count') do
+        assert_no_difference('Resident.count') do
+          assert_no_difference('User.count') do
+            when_creating_family_from_user adding_user_info
+          end
+        end
+      end
+
+      assert_redirected_to @controller.login_path
+    end
+
+    test "should create family from existing user when family info was added and resident info already exists" do
+      given_a_user_with_no_family_info
+      assert_difference('Resident.count') do
+        expect_each_new_user_to_receive_email 1 do
+          when_adding_family_info
+        end
+      end
+      expect_the_correct_family
+      assert_redirected_to families_path
+      verify_expected_email @mother, @email
+    end
+
+    test "should create family from existing user when family info was added and only login info exists" do
+      given_a_user_with_no_family_info
+      @user.resident.destroy
+      assert_difference('Resident.count', 2) do
+        expect_each_new_user_to_receive_email 1 do
+          when_adding_family_info
+        end
+      end
+      expect_the_correct_family
+      assert_redirected_to families_path
+      verify_expected_email @mother, @email
+    end
+
+    test "should not allow creating family from existing user unless family info was added" do
+      given_a_user_with_no_family_info
+      should_fail_to_create_family_from_user false
+    end
+
+    test "should not allow creating family from existing user if not current_user" do
+      given_a_user_with_no_family_info
+      @controller.log_in_as users(:dad_user)
+      should_fail_to_create_family_from_user
+    end
+
     test "should create family" do
       assert_difference('Family.count') do
         assert_difference('Resident.count', 2) do
@@ -58,12 +161,16 @@ module SummerResidents
       assert_redirected_to families_path
     end
 
-    def expect_each_new_user_to_receive_email &block
-      assert_difference('ActionMailer::Base.deliveries.size', 2) do
+    def expect_each_new_user_to_receive_email count, &block
+      assert_difference('ActionMailer::Base.deliveries.size', count) do
         yield
       end
-      @mother_email, @father_email = ActionMailer::Base.deliveries.pop(2)
-      @father_email, @mother_email = [@mother_email, @father_email] if ([@father.email] == @mother_email.to)
+      if 2 == count
+        @mother_email, @father_email = ActionMailer::Base.deliveries.pop(2)
+        @father_email, @mother_email = [@mother_email, @father_email] if ([@father.email] == @mother_email.to)
+      elsif 1 == count
+        @email = ActionMailer::Base.deliveries.pop
+      end
     end
 
     def assert_email_contains regex, email
@@ -72,15 +179,12 @@ module SummerResidents
 
     test "when creating family, each parent shuld receive a password initializatin email" do
       assert_difference('PasswordRecovery.count', 2) do
-        expect_each_new_user_to_receive_email do
+        expect_each_new_user_to_receive_email 2 do
           post :create, father: @father_hash, mother: @mother_hash
         end
       end
-      assert_equal [@father.email], @father_email.to
-      assert_equal [@mother.email], @mother_email.to
-      email_line_intro = "Before you can log into your account, you must set your password by following this link: http://#{Rails.application.config.action_mailer.default_url_options[:host]}/reset_password\\?uuid="
-      assert_email_contains /^#{email_line_intro}#{User.find_by_email(@mother.email).password_recovery.reset_link}\.$/, @mother_email
-      assert_email_contains /^#{email_line_intro}#{User.find_by_email(@father.email).password_recovery.reset_link}\.$/, @father_email
+      verify_expected_email @father, @father_email
+      verify_expected_email @mother, @mother_email
     end
 
     def should_fail_to_create_family_from parents
