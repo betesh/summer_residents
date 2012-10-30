@@ -7,7 +7,7 @@ gemspec
 
 # jquery-rails is used by the dummy application
 gem "jquery-rails"
-gem "easy_rails_authentication", "~> 0.0.4"
+gem "easy_rails_authentication", "~> 0.0.6"
 
 group :development do
   gem 'rb-readline'

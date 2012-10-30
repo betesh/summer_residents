@@ -28,7 +28,7 @@ module SummerResidents
     def update
       @resident = Resident.find(params[:id])
       assign_resident_attributes
-      @resident.user.email = params[:email]
+      @resident.user.email = params[:email].blank? ? nil : params[:email]
       set_type
       show_unless_errors @resident.save
     end

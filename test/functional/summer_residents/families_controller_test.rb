@@ -227,10 +227,7 @@ module SummerResidents
 
     test "father's email is required" do
       should_fail_to_create_family_from mother: @mother_hash, father: { first_name: @father.first_name, last_name: @father.last_name }
-      there_should_be_errors 2
-      there_should_be_errors_on_column :"father-email", 2
-      should_fail_validation_because :"father-email", "can't be blank"
-      should_fail_validation_because :"father-email", "does not appear to be valid"
+      should_fail_validation_for_one_reason :"father-email", "can't be blank"
     end
 
     test "father's first name cannot be blank" do
@@ -245,10 +242,7 @@ module SummerResidents
 
     test "father's email cannot be blank" do
       should_fail_to_create_family_from mother: @mother_hash, father: { first_name: @father.first_name, last_name: @father.last_name, email: "" }
-      there_should_be_errors 2
-      there_should_be_errors_on_column :"father-email", 2
-      should_fail_validation_because :"father-email", "can't be blank"
-      should_fail_validation_because :"father-email", "does not appear to be valid"
+      should_fail_validation_for_one_reason :"father-email", "can't be blank"
     end
 
     test "father's email must be valid" do
@@ -268,10 +262,7 @@ module SummerResidents
 
     test "mother's email is required" do
       should_fail_to_create_family_from father: @father_hash, mother: { first_name: @mother.first_name, last_name: @mother.last_name }
-      there_should_be_errors 2
-      there_should_be_errors_on_column :"mother-email", 2
-      should_fail_validation_because :"mother-email", "can't be blank"
-      should_fail_validation_because :"mother-email", "does not appear to be valid"
+      should_fail_validation_for_one_reason :"mother-email", "can't be blank"
     end
 
     test "mother's first name cannot be blank" do
@@ -286,10 +277,7 @@ module SummerResidents
 
     test "mother's email cannot be blank" do
       should_fail_to_create_family_from father: @father_hash, mother: { first_name: @mother.first_name, last_name: @mother.last_name, email: "" }
-      there_should_be_errors 2
-      there_should_be_errors_on_column :"mother-email", 2
-      should_fail_validation_because :"mother-email", "can't be blank"
-      should_fail_validation_because :"mother-email", "does not appear to be valid"
+      should_fail_validation_for_one_reason :"mother-email", "can't be blank"
     end
 
     test "mother's email must be valid" do

@@ -119,9 +119,8 @@ module SummerResidents
     test "should not update resident if missing email" do
       update_resident :cell => @resident.cell, :first_name => @resident.first_name, :last_name => @resident.last_name, :type => :Father
       expect_resident_was_not_updated
-      there_should_be_errors 2
-      there_should_be_errors_on_column :email, 2
-      should_fail_validation_because :email, "does not appear to be valid"
+      there_should_be_errors 1
+      there_should_be_errors_on_column :email, 1
       should_fail_validation_because :email, "can't be blank"
     end
 
@@ -144,9 +143,8 @@ module SummerResidents
     test "should not update resident if email is blank" do
       update_resident :cell => @resident.cell, :first_name => @resident.first_name, :last_name => @resident.last_name, :email => "", :type => :Father
       expect_resident_was_not_updated
-      there_should_be_errors 2
-      there_should_be_errors_on_column :email, 2
-      should_fail_validation_because :email, "does not appear to be valid"
+      there_should_be_errors 1
+      there_should_be_errors_on_column :email, 1
       should_fail_validation_because :email, "can't be blank"
     end
   

@@ -14,10 +14,11 @@ module SummerResidents
     delegate :email, :to => :user
   private
     def valid_user
-      if self.user
-        if !self.user.valid?
-          self.user.errors.each { |k, e| @errors.add("user-#{k}",e) unless "email" == k.to_s }
-          self.user.errors[:email].each { |e| @errors.add("email", e) }
+      u = self.user
+      if u
+        if u.invalid?
+          u.errors.each { |k, e| @errors.add("user-#{k}",e) unless :email == k.to_sym }
+          u.errors[:email].each { |e| @errors.add(:email, e) }
         end
       else
         @errors.add(:user, "User must be initialized with an email address and password")
