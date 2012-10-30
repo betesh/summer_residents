@@ -121,7 +121,7 @@ module SummerResidents
         end
       end
       expect_the_correct_family
-      assert_redirected_to families_path
+      assert_redirected_to family_path(@fam.id)
       verify_expected_email @mother, @email
     end
 
@@ -134,7 +134,7 @@ module SummerResidents
         end
       end
       expect_the_correct_family
-      assert_redirected_to families_path
+      assert_redirected_to family_path(@fam.id)
       verify_expected_email @mother, @email
     end
 

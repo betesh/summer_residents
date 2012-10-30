@@ -67,7 +67,7 @@ module SummerResidents
             user_is_new = p.user.password_digest == uninitialized_pw
             EasyRailsAuthentication::AuthenticationHelper.SendPasswordInitializationEmailTo p.email if user_is_new
           }
-          format.html { redirect_to families_url, notice: 'Family was successfully created.' }
+          format.html { redirect_to (added_user_info? ? family_url(@family.id) : families_url), notice: 'Family was successfully created.' }
           format.json { render json: @family, status: :created, location: @family }
         else
           format.html { render action: "new" }
