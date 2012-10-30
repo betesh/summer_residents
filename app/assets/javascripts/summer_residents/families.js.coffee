@@ -7,6 +7,7 @@ $ ->
   update_form = (id) -> $('div.summer_residents_family div.summer_residents_resident form#update_resident_form_'+id)
   delete_link = $('div.summer_residents_family a.delete_family_link')
   url = (id) -> "/summer_residents/residents/"+id
+  edit_or_new_url = (id) -> if id then (url(id) + "/edit") else (url("new"))
 
   delete_link.keep_centered()
 
@@ -15,11 +16,11 @@ $ ->
     if update
       xhr = $.ajax
         url: url(id),
-        type: "PUT",
+        type: if id then "PUT" else "POST",
         data: update_form(id).serialize()
     else
       xhr = $.ajax
-        url:  url(id) + "/edit",
+        url:  edit_or_new_url(id)
         type: "GET",
         data: "type="+type(id)+"&cancel=true"
     xhr.done ->
@@ -31,7 +32,7 @@ $ ->
   ajax_edit = (elem) ->
     id = SR.item_id('edit_resident_link', elem.id)
     xhr = $.ajax
-      url:  url(id) + "/edit",
+      url:  edit_or_new_url(id)
       type: "GET",
       data: "type="+type(id)
     xhr.done ->
