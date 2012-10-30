@@ -43,13 +43,17 @@ module SummerResidents
     assert_valid :mother
 
     test "father cannot be a mother" do
-      @model.father = @other_family.mother
-      @model.save
+      @model.mother = nil
+      @model.save!
+      @model.father_id = @other_family.mother_id
+      assert @model.invalid?, @model.errors.inspect
     end
 
     test "mother cannot be a father" do
-      @model.mother = @other_family.father
-      @model.save
+      @model.father = nil
+      @model.save!
+      @model.mother_id = @other_family.father_id
+      assert @model.invalid?, @model.errors.inspect
     end
   end
 end
