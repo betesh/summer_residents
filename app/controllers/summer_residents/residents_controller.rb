@@ -2,6 +2,7 @@ module SummerResidents
   class ResidentsController < SummerResidentsController
     skip_before_filter :require_administrator_priveleges, only: [:edit, :update, :new, :create]
     before_filter :require_administrator_priveleges_if_different_user, only: [:edit, :update]
+    before_filter :require_administrator_priveleges_if_user_doesnt_match_family_id, only: [:new, :create]
 
     def create
       create_resident_and_assign_to_family
@@ -51,7 +52,7 @@ private
 
     def assign_resident_to_family
       set_type
-      family = @current_user.family
+      family = Family.find(params[:fam_id])
       case @type.to_sym
         when :Mother
           @resident.husband_and_kids = family

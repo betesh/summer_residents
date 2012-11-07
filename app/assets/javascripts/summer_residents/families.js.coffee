@@ -8,21 +8,22 @@ update_form = (id) -> $('div.summer_residents_family div.summer_residents_reside
 delete_link = $('div.summer_residents_family a.delete_family_link')
 url = (id) -> "/summer_residents/residents/"+id
 edit_or_new_url = (id) -> if id then (url(id) + "/edit") else (url("new"))
+fam_id = (elem) -> 'fam_id='+SR.item_id('summer_residents_family', $(elem).parent().parent().attr('id'))+'&'
 
 delete_link.keep_centered()
 
-ajax_show = (id, update) ->
+ajax_show = (id, fam, update) ->
   xhr
   if update
     xhr = $.ajax
       url: url(id),
       type: if id then "PUT" else "POST",
-      data: update_form(id).serialize()
+      data: fam+update_form(id).serialize()
   else
     xhr = $.ajax
       url:  edit_or_new_url(id)
       type: "GET",
-      data: "type="+type(id)+"&cancel=true"
+      data: fam+"type="+type(id)+"&cancel=true"
   xhr.done ->
     xhr.responseText
     edit_link().click -> ajax_edit this
@@ -31,14 +32,15 @@ ajax_show = (id, update) ->
 
 ajax_edit = (elem) ->
   id = SR.item_id('edit_resident_link', elem.id)
+  fam = fam_id(elem)
   xhr = $.ajax
     url:  edit_or_new_url(id)
     type: "GET",
-    data: "type="+type(id)
+    data: fam+"type="+type(id)
   xhr.done ->
     xhr.responseText
-    update_link(id).click -> ajax_show(id, true)
-    show_link(id).click -> ajax_show(id)
+    update_link(id).click -> ajax_show(id, fam, true)
+    show_link(id).click -> ajax_show(id, fam)
   xhr.fail -> SR.ajax_fail(xhr)
   false
 

@@ -33,6 +33,18 @@ module SummerResidents
       end
     end
 
+    def require_administrator_priveleges_if_user_doesnt_match_family_id
+      require_administrator_priveleges unless user_matches_family_id
+    end
+
+    def user_matches_family_id
+      resident = @current_user.resident
+      return false if !resident
+      fam_id = params[:fam_id].to_i
+      family = @current_user.family
+      family && family.id == fam_id
+    end
+
     def url_for options=nil
       begin
         super options

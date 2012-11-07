@@ -32,12 +32,11 @@ module SummerResidents
       assert_template :show
     end
 
-    def log_in_as_single_parent
-      users(:joe_user).destroy
-      @user = users(:hadassah_user)
-      @user.admin = false
-      @user.save!
-      @controller.log_in_as @user
+    def single_parent
+      @single_parent = users(:mom_user)
+      @single_parent.admin = false
+      @single_parent.save!
+      @single_parent.family.id
     end
 
     def when_creating_resident options
@@ -55,34 +54,48 @@ module SummerResidents
     end
 
     test "should get new" do
-      log_in_as_single_parent
-      get :new, format: :js, type: :Mother
+      get :new, format: :js, type: :Mother, fam_id: single_parent
+      assert_response :success
+      assert_template :edit
+    end
+
+    test "should get new as single parent" do
+      single_parent
+      @controller.log_in_as @single_parent
+      get :new, format: :js, type: :Mother, fam_id: single_parent
       assert_response :success
       assert_template :edit
     end
 
     test "new should render show template when cancelling" do
-      log_in_as_single_parent
-      get :new, format: :js, cancel: "2", type: :Mother
+      get :new, format: :js, cancel: "2", type: :Mother, fam_id: single_parent
       assert_response :success
       assert_template :show
     end
   
-    test "should create resident as spouse of current_user" do
-      log_in_as_single_parent
-      create_resident :cell => @resident.cell, :first_name => @resident.first_name, :last_name => @resident.last_name, :email => @resident.email, :type => :Father
+    def create_spouse
+      create_resident :cell => @resident.cell, :first_name => @resident.first_name, :last_name => @resident.last_name, :email => @resident.email, :type => :Father, fam_id: single_parent
       assert_response :success
       assert_template :show
       resident = assigns(:resident)
       [:first_name, :last_name, :cell, :email].each { |e|
         assert_equal @resident.__send__(e), resident.__send__(e)
       }
-      assert resident.family.mother == @user.resident
+      assert_equal @single_parent, resident.family.mother.user
+    end
+
+    test "should create resident in correct family" do
+      create_spouse
+    end
+
+    test "should create spouse as single parent" do
+      single_parent
+      @controller.log_in_as @single_parent
+      create_spouse
     end
 
     test "create should fail and render errors if missing first_name" do
-      log_in_as_single_parent
-      when_creating_resident :cell => @resident.cell, :first_name => "", :last_name => @resident.last_name, :email => @resident.email, :type => :Father
+      when_creating_resident :cell => @resident.cell, :first_name => "", :last_name => @resident.last_name, :email => @resident.email, :type => :Father, fam_id: single_parent
       expect_resident_was_not_updated
       there_should_be_errors 1
       there_should_be_errors_on_column :"first_name", 1
