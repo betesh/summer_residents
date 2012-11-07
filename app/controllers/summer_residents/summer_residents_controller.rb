@@ -45,11 +45,11 @@ module SummerResidents
       family && family.id == fam_id
     end
 
-    def url_for options=nil
+    def url_for *options
       begin
-        super options
+        super *options
       rescue ActionController::RoutingError
-        main_app.url_for options
+        main_app.url_for *options
       end
     end
   end
