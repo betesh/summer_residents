@@ -1,29 +1,3 @@
-<%= form_for(@bungalow) do |f| %>
-  <% if @bungalow.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@bungalow.errors.count, "error") %> prohibited this bungalow from being saved:</h2>
-
-      <ul>
-      <% @bungalow.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :unit %><br />
-    <%= f.text_field :unit %>
-  </div>
-  <div class="field">
-    <%= f.label :phone %><br />
-    <%= f.number_field :phone %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+<tr><td class="label_td"><%= label_tag :name %>:</td><td><%= text_field_tag :name, r.name %><td></tr>
+<tr><td class="label_td"><%= label_tag :phone %>:</td><td><%= telephone_field_tag :phone, r.phone, size: 10, maxlength: 10 %></td></tr>
+<tr><td class="label_td"><%= label_tag :unit %>:</td><td><%= text_field_tag :unit, r.unit, size: 5, maxlength: 5 %></td></tr>

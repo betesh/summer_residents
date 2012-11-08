@@ -138,6 +138,10 @@ class ActionController::TestCase
     @routes = SummerResidents::Engine.routes
     @controller.log_in_as users(:joe_user)
   end
+
+  def assert_assigned_family_matches expected
+    assert_equal expected, assigns(:instance).family
+  end
 end
 
 module SummerResidents

@@ -5,6 +5,10 @@
       <%= render :partial => 'summer_residents/residents/show', :locals => { r: p,  type: n} %>
     <% end %>
   <% end %>
+  <% p = family.bungalow || SummerResidents::Bungalow.new %>
+  <%= model_tag p do %>
+    <%= render partial: 'summer_residents/bungalows/show', locals: { r: p } %>
+  <% end %>
   <% if @index_action then %>
     <%= link_to "Delete this family", '#', class: :delete_family_link, id: "delete_family_link_#{family.id}" %>
   <% end %>

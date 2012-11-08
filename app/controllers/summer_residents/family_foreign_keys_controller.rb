@@ -15,8 +15,12 @@ module SummerResidents
         format.js { render nothing: true }
       end
     end
-    helper_method :js_name
+    helper_method :js_name, :locals
   protected
+    def locals
+      { r: @instance }
+    end
+
     def model_name
       "SummerResidents::#{controller_name.classify}".constantize
     end

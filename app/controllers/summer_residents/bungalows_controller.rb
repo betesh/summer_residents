@@ -1,61 +1,34 @@
 module SummerResidents
-  class BungalowsController < SummerResidentsController
-    # GET /bungalows/new
-    # GET /bungalows/new.json
-    def new
-      @bungalow = Bungalow.new
-  
-      respond_to do |format|
-        format.html # new.html.erb
-        format.json { render :json => @bungalow }
-      end
-    end
-  
+  class BungalowsController < FamilyForeignKeysController
     # GET /bungalows/1/edit
     def edit
-      @bungalow = Bungalow.find(params[:id])
+      @instance = model_name.find(params[:id])
+      edit_but_show_if_cancelled
     end
   
     # POST /bungalows
     # POST /bungalows.json
     def create
-      mass_assign Bungalow
-  
-      respond_to do |format|
-        if @bungalow.save
-          format.html { redirect_to @bungalow, :notice => 'Bungalow was successfully created.' }
-          format.json { render :json => @bungalow, :status => :created, :location => @bungalow }
-        else
-          format.html { render :action => "new" }
-          format.json { render :json => @bungalow.errors, :status => :unprocessable_entity }
-        end
-      end
+      create_and_assign_to_family
+      assign_attributes
+      show_unless_errors @instance.save
     end
   
     # PUT /bungalows/1
     # PUT /bungalows/1.json
     def update
-      mass_assign Bungalow
-  
-      respond_to do |format|
-        if @bungalow.save
-          format.html { redirect_to @bungalow, :notice => 'Bungalow was successfully updated.' }
-          format.json { head :no_content }
-        else
-          format.html { render :action => "edit" }
-          format.json { render :json => @bungalow.errors, :status => :unprocessable_entity }
-        end
-      end
+      @instance = model_name.find(params[:id])
+      assign_attributes
+      show_unless_errors @instance.save
     end
-  
-    # DELETE /bungalows/1
-    # DELETE /bungalows/1.json
-    def destroy
-      Bungalow.find(params[:id]).destroy
-  
-      respond_to do |format|
-        format.js { render nothing: true }
-      end
+private
+    def create_and_assign_to_family
+      @instance = model_name.new
+      @instance.family = Family.find(params[:fam_id])
+    end
+
+    def model_attributes
+      [:name, :phone, :unit]
     end
   end
 end
