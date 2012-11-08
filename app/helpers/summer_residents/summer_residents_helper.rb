@@ -8,5 +8,9 @@ module SummerResidents
       name = obj.class.to_s.underscore.gsub("/", "_")
       content_tag type, class: name, id: "#{name}_#{obj.id}", &block
     end
+
+    def type_field type, instance
+      (hidden_field_tag "type", type, id: "resident_type_#{instance.id}").html_safe
+    end
   end
 end

@@ -1,5 +1,5 @@
 <%= form_tag '', class: "update_resident_form", id: "update_resident_form_#{r.id}" do %>
-  <%= hidden_field_tag "type", type, id: "resident_type_#{r.id}" %>
+  <%= type_field type, r %>
   <table>
     <tr><td class="label_td"><%= label_tag :first_name %>:</td><td><%= text_field_tag :first_name, r.first_name %><td></tr>
     <tr><td class="label_td"><%= label_tag :last_name %>:</td><td><%= text_field_tag :last_name, r.last_name %></td></tr>

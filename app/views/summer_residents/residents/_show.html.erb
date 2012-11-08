@@ -1,4 +1,4 @@
-<%= hidden_field_tag "type", type, id: "resident_type_#{r.id}" %>
+<%= type_field type, r %>
 <%= type %>: <b><%= r.full_name %></b> (<%= link_to "Edit", '#', class: :edit_resident_link, id: "edit_resident_link_#{r.id}" %>)<br />
 &emsp;Cell:<%= number_to_phone(r.cell) %><br />
 &emsp;Email:<%= r.email %>
