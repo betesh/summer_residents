@@ -1,0 +1,10 @@
+<% r = locals[:r] %>
+<%= form_tag '', class: "update_#{js_name}_form", id: "update_#{js_name}_form_#{r.id}" do %>
+  <table>
+    <%= render partial: 'form', locals: locals %>
+    <tr><td colspan=2 class="update_link_td">
+      <%= link_to "Save", '#', class: "update_#{js_name}_link", id: "update_#{js_name}_link_#{r.id}" %>&emsp;&emsp;
+      <%= link_to "Cancel", '#', class: "show_#{js_name}_link", id: "show_#{js_name}_link_#{r.id}" %>
+    </td></tr>
+  </table>
+<% end %>

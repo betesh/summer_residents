@@ -1,0 +1,2 @@
+var form = "<%= escape_javascript render partial: 'edit' %>";
+$('div#summer_residents_family_<%= @instance.family.id %> div#summer_residents_<%= js_name %>_<%= @instance.id %>').html(form);

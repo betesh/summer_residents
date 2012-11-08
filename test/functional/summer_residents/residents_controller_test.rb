@@ -15,7 +15,7 @@ module SummerResidents
     def expect_resident_was_not_updated
       assert_response :success
       assert_template :errors
-      resident = assigns(:resident)
+      resident = assigns(:instance)
       assert resident, "@resident should have been assigned"
       @errors = resident.errors
     end
@@ -77,7 +77,7 @@ module SummerResidents
       create_resident :cell => @resident.cell, :first_name => @resident.first_name, :last_name => @resident.last_name, :email => @resident.email, :type => :Father, fam_id: single_parent
       assert_response :success
       assert_template :show
-      resident = assigns(:resident)
+      resident = assigns(:instance)
       [:first_name, :last_name, :cell, :email].each { |e|
         assert_equal @resident.__send__(e), resident.__send__(e)
       }
@@ -106,7 +106,7 @@ module SummerResidents
       update_resident :cell => @resident.cell, :first_name => @resident.first_name, :last_name => @resident.last_name, :email => @resident.email, :type => :Father
       assert_response :success
       assert_template :show
-      resident = assigns(:resident)
+      resident = assigns(:instance)
       [:first_name, :last_name, :cell, :email].each { |e|
         assert_equal @resident.__send__(e), resident.__send__(e)
       }

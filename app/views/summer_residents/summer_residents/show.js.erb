@@ -1,0 +1,4 @@
+var created_instance = $('div#summer_residents_family_<%= @instance.family.id %> div#summer_residents_<%= js_name %>_');
+created_instance.attr('id', "summer_residents_<%= js_name %>_<%= @instance.id %>");
+$('div#summer_residents_<%= js_name %>_<%= @instance.id %>').html("<%= escape_javascript render :partial => 'show', :locals => locals %>");
+$('div#summer_residents_family_<%= @instance.family.id %> div#error_explanation').remove();
