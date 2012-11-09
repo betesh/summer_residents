@@ -3,6 +3,7 @@ module SummerResidents
     skip_before_filter :require_administrator_priveleges, only: [:edit, :update, :new, :create]
     before_filter :require_administrator_priveleges_if_different_user, only: [:edit, :update]
     before_filter :require_administrator_priveleges_if_user_doesnt_match_family_id, only: [:new, :create]
+    before_filter :set_type, only: [:edit, :update, :create, :new]
 
     def create
       create_and_assign_to_family
@@ -13,19 +14,12 @@ module SummerResidents
       show_unless_errors success
     end
 
-    def edit
-      @instance = Resident.find(params[:id])
-      set_type
-      edit_but_show_if_cancelled
-    end
-  
     # PUT /residents/1
     # PUT /residents/1.json
     def update
       @instance = Resident.find(params[:id])
       assign_attributes
       @instance.user.email = params[:email].blank? ? nil : params[:email]
-      set_type
       show_unless_errors @instance.save
     end
 
@@ -38,7 +32,6 @@ private
     end
 
     def assign_to_family
-      set_type
       family = Family.find(params[:fam_id])
       case @type.to_sym
         when :Mother

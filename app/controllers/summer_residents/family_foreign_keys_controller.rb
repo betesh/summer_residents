@@ -8,6 +8,23 @@ module SummerResidents
       edit_but_show_if_cancelled
     end
 
+    def edit
+      @instance = model_name.find(params[:id])
+      edit_but_show_if_cancelled
+    end
+
+    def create
+      create_and_assign_to_family
+      assign_attributes
+      show_unless_errors @instance.save
+    end
+
+    def update
+      @instance = model_name.find(params[:id])
+      assign_attributes
+      show_unless_errors @instance.save
+    end
+
     def destroy
       model_name.find(params[:id]).destroy
   
@@ -17,6 +34,11 @@ module SummerResidents
     end
     helper_method :js_name, :locals
   protected
+    def create_and_assign_to_family
+      @instance = model_name.new
+      @instance.family = Family.find(params[:fam_id])
+    end
+
     def locals
       { r: @instance }
     end
