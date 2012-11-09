@@ -1,5 +1,5 @@
 <%= type_field type, r %>
 <tr><td class="label_td"><%= label_tag :first_name %>:</td><td><%= text_field_tag :first_name, r.first_name %><td></tr>
 <tr><td class="label_td"><%= label_tag :last_name %>:</td><td><%= text_field_tag :last_name, r.last_name %></td></tr>
-<tr><td class="label_td"><%= label_tag :cell %>:</td><td><%= telephone_field_tag :cell, r.cell, size: 10, maxlength: 10 %></td></tr>
+<%= telephone_form_row r.cell, :cell %>
 <tr><td class="label_td"><%= label_tag :email %>:</td><td><%= email_field_tag :email, r.email, size: 25 %></td></tr>
