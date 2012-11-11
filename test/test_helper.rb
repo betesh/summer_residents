@@ -139,8 +139,198 @@ class ActionController::TestCase
     @controller.log_in_as users(:joe_user)
   end
 
+  def all_args_but col
+    if col.is_a?(Array)
+      all_args.delete_if { |k, v| col.include?(k) }
+    else
+      all_args.delete_if { |k, v| col == k }
+    end
+  end
+
+  def all_args_but_replace key, val
+    args = all_args
+    args[key] = val
+    args
+  end
+
+  def assert_assigned_instance_matches expected
+    instance = assigns(:instance)
+    @controller.model_attributes.each {|attr|
+      assert_equal expected.__send__(attr), instance.__send__(attr), "mismatch on #{self.class.model_name}.#{attr}"
+    }
+  end
+
   def assert_assigned_family_matches expected
     assert_equal expected, assigns(:instance).family
+  end
+
+  def expect_validation_failure_due_to_phone action, phone, errors
+    send("when_#{action}_fails", all_args_but_replace(:phone, phone))
+    @instance.phone = phone
+    expect_validation_failure_due_to :phone, errors
+  end
+
+  def expect_validation_failure_on_create_due_to_phone phone, errors=1
+    expect_validation_failure_due_to_phone :creating, phone, errors
+  end
+
+  def expect_validation_failure_on_update_due_to_phone phone, errors=1
+    expect_validation_failure_due_to_phone :updating, phone, errors
+  end
+
+  def self.model_name
+    (self.to_s.gsub /.*::(.*)sControllerTest/, '\1')
+  end
+
+  def model
+    "SummerResidents::#{self.class.model_name}".constantize
+  end
+
+  def self.create_should_succeed_with_missing attr
+    test "should create #{model_name.downcase} with missing #{attr}" do
+      @instance.__send__("#{attr}=",nil)
+      create_should_succeed_with all_args_but attr
+    end
+  end
+
+  def self.update_should_succeed_with_missing attr
+    test "should update #{model_name.downcase} with missing #{attr}" do
+      @instance.__send__("#{attr}=",nil)
+      update_should_succeed_with all_args_but attr
+    end
+  end
+
+  def record_count
+    "SummerResidents::#{self.class.model_name}.count"
+  end
+
+  def expect_template_when_getting action, expected_template, args
+    get action, ({format: :js}).merge(args)
+    assert_response :success
+    assert_template expected_template
+  end
+
+  def create_should_succeed_with args
+    assert_difference(record_count) do
+      post :create, ({format: :js}).merge(args)
+    end
+    assert_response :success
+    assert_template :show
+    assert_assigned_instance_matches @instance
+    assert_assigned_family_matches @instance.family
+  end
+
+  def when_creating_fails args
+    assert_no_difference(record_count) do
+      post :create, ({format: :js}).merge(args)
+    end
+    assert_response :success
+    assert_template :errors
+  end
+
+  def update_record args
+    assert_no_difference(record_count) do
+      put :update, ({format: :js, id: @instance}).merge(args)
+    end
+    assert_response :success
+  end
+
+  def should_fail_validation_because_phone_is_the_wrong_length
+    should_fail_validation_because :phone, "is the wrong length (should be 10 characters)"
+  end
+
+  def update_should_succeed_with args
+    update_record args
+    assert_template :show
+    assert_assigned_instance_matches @instance
+    assert_equal @instance.id, assigns(:instance).id
+    assert_assigned_family_matches @instance.family
+  end
+
+  def when_updating_fails args
+    update_record args
+    assert_template :errors
+    assert_equal @instance.id, assigns(:instance).id
+  end
+
+  def expect_validation_failure_due_to col, errors=1
+    assert_assigned_instance_matches @instance
+    assert_assigned_family_matches @instance.family
+    @errors = assigns(:instance).errors
+    there_should_be_errors errors
+    there_should_be_errors_on_column col, errors
+  end
+
+  def self.destroy_test
+    test "should destroy record" do
+      assert_difference(record_count, -1) do
+        delete :destroy, id: @instance, format: :js
+      end
+      assert_response :success
+      assert_template nil
+    end
+  end
+
+  def self.test_failure_to_update_because_phone_is_invalid
+    test "update should fail if phone contains alpha" do
+      expect_validation_failure_on_update_due_to_phone "abcdef1234", 2
+      should_fail_validation_because :phone, "is not a number"
+      should_fail_validation_because_phone_is_the_wrong_length
+    end
+
+    test "update should fail if phone too short" do
+      expect_validation_failure_on_update_due_to_phone "123456789"
+      should_fail_validation_because_phone_is_the_wrong_length
+    end
+
+    test "update should fail if phone too long" do
+      expect_validation_failure_on_update_due_to_phone "12345678901"
+      should_fail_validation_because_phone_is_the_wrong_length
+    end
+  end
+
+  def self.test_failure_to_create_because_phone_is_invalid
+    test "create should fail if phone contains alpha" do
+      expect_validation_failure_on_create_due_to_phone "abcdef1234", 2
+      should_fail_validation_because :phone, "is not a number"
+      should_fail_validation_because_phone_is_the_wrong_length
+    end
+
+    test "create should fail if phone too short" do
+      expect_validation_failure_on_create_due_to_phone "123456789"
+      should_fail_validation_because_phone_is_the_wrong_length
+    end
+
+    test "create should fail if phone too long" do
+      expect_validation_failure_on_create_due_to_phone "12345678901"
+      should_fail_validation_because_phone_is_the_wrong_length
+    end
+  end
+
+  def self.test_edit_action
+    test "should get edit" do
+      expect_template_when_getting :edit, :edit, id: @instance
+      assert_equal @instance, assigns(:instance)
+    end
+
+    test "edit should render show template when cancelling" do
+      expect_template_when_getting :edit, :show, id: @instance, cancel: "2"
+      assert_equal @instance, assigns(:instance)
+    end
+  end
+
+  def self.test_new_action
+    test "should get new" do
+      expect_template_when_getting :new, :edit, fam_id: @family.id
+      assert_assigned_instance_matches model.new
+      assert_assigned_family_matches @family
+    end
+
+    test "new should render blank template when cancelling" do
+      expect_template_when_getting :new, :blank, fam_id: @family.id, cancel: "2"
+      assert_assigned_instance_matches model.new
+      assert_assigned_family_matches @family
+    end
   end
 end
 
