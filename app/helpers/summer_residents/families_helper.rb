@@ -6,5 +6,10 @@ module SummerResidents
       p.user = User.new
       p
     end
+
+    def show_or_blank family, fk
+      record = family.__send__(fk)
+      { partial: "summer_residents/#{fk}s/#{record ? :show : :blank }", locals: { r: record } }
+    end
   end
 end

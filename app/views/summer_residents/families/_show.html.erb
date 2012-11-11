@@ -2,12 +2,11 @@
   <% { Father: family.father, Mother: family.mother }.each do |n, r| %>
     <% p = new_if_nil(r)  %>
     <%= model_tag p do %>
-      <%= render :partial => 'summer_residents/residents/show', :locals => { r: p,  type: n} %>
+      <%= render partial: ("summer_residents/residents/#{ r ? :show : :blank }"), locals:  { r: p,  type: n } %>
     <% end %>
   <% end %>
-  <% p = family.bungalow || SummerResidents::Bungalow.new %>
-  <%= model_tag p do %>
-    <%= render partial: 'summer_residents/bungalows/show', locals: { r: p } %>
+  <%= model_tag (family.bungalow || SummerResidents::Bungalow.new) do %>
+    <%= render show_or_blank(family, :bungalow) %>
   <% end %>
   <% if @index_action then %>
     <%= link_to "Delete this family", '#', class: :delete_family_link, id: "delete_family_link_#{family.id}" %>

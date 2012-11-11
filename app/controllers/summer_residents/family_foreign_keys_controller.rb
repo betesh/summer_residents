@@ -5,12 +5,12 @@ module SummerResidents
 
     def new
       create_and_assign_to_family
-      edit_but_show_if_cancelled
+      edit_but_if_cancelled :blank
     end
 
     def edit
       @instance = model_name.find(params[:id])
-      edit_but_show_if_cancelled
+      edit_but_if_cancelled :show
     end
 
     def create
@@ -51,9 +51,9 @@ module SummerResidents
       "#{controller_name.classify.underscore}"
     end
 
-    def edit_but_show_if_cancelled
+    def edit_but_if_cancelled x
       respond_to do |format|
-        format.js { render action: params[:cancel] ? :show : :edit }
+        format.js { render action: params[:cancel] ? x : :edit }
       end
     end
 

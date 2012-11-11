@@ -67,10 +67,10 @@ module SummerResidents
       assert_template :edit
     end
 
-    test "new should render show template when cancelling" do
+    test "new should render blank template when cancelling" do
       get :new, format: :js, cancel: "2", type: :Mother, fam_id: single_parent
       assert_response :success
-      assert_template :show
+      assert_template :blank
     end
   
     def create_spouse

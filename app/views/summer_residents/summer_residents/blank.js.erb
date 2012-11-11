@@ -1,0 +1,3 @@
+var blank = "<%= escape_javascript render partial: 'blank', locals: locals %>";
+$('div#summer_residents_family_<%= @instance.family.id %> div#summer_residents_<%= js_name %>_').html(blank);
+$('div#summer_residents_family_<%= @instance.family.id %> div#error_explanation').remove();

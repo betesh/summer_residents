@@ -93,8 +93,8 @@ module SummerResidents
       assert_assigned_family_matches @bungalow.family
     end
 
-    test "new should render show template when cancelling" do
-      expect_template_when_getting :new, :show, fam_id: @bungalow.family.id, cancel: "2"
+    test "new should render blank template when cancelling" do
+      expect_template_when_getting :new, :blank, fam_id: @bungalow.family.id, cancel: "2"
       assert_assigned_instance_matches Bungalow.new
       assert_assigned_family_matches @bungalow.family
     end
