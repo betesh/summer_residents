@@ -8,7 +8,7 @@ module SummerResidents
     def create
       create_and_assign_to_family
       assign_attributes
-      @instance.user = User.initialize_without_password(params[:email])
+      @instance.user = User.initialize_without_password(email_param)
       success = @instance.save
       EasyRailsAuthentication::AuthenticationHelper.SendPasswordInitializationEmailTo @instance.email if success
       show_unless_errors success
@@ -19,7 +19,7 @@ module SummerResidents
     def update
       @instance = Resident.find(params[:id])
       assign_attributes
-      @instance.user.email = params[:email].blank? ? nil : params[:email]
+      @instance.user.email = email_param
       show_unless_errors @instance.save
     end
 
@@ -52,6 +52,10 @@ private
 
     def locals
       { r: @instance, type: @type }
+    end
+
+    def email_param
+      params[:email].blank? ? nil : params[:email]
     end
   end
 end
