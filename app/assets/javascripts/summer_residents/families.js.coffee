@@ -49,7 +49,7 @@ set_edit_link = (model) -> edit_link(model).click -> ajax_edit(this, model)
 $ ->
   delete_link.keep_centered()
 
-  set_edit_link(model) for model in ['resident', 'bungalow']
+  set_edit_link(model) for model in ['resident', 'bungalow', 'home']
 
   delete_link.click ->
     id = SR.item_id('delete_family_link', this.id)

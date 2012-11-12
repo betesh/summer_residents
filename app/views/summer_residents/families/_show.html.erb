@@ -5,6 +5,9 @@
       <%= render partial: ("summer_residents/residents/#{ r ? :show : :blank }"), locals:  { r: p,  type: n } %>
     <% end %>
   <% end %>
+  <%= model_tag (family.home || SummerResidents::Home.new) do %>
+    <%= render show_or_blank(family, :home) %>
+  <% end %>
   <%= model_tag (family.bungalow || SummerResidents::Bungalow.new) do %>
     <%= render show_or_blank(family, :bungalow) %>
   <% end %>

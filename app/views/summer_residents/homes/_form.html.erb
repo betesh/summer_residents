@@ -1,45 +1,6 @@
-<%= form_for(@home) do |f| %>
-  <% if @home.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@home.errors.count, "error") %> prohibited this home from being saved:</h2>
-
-      <ul>
-      <% @home.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :address %><br />
-    <%= f.text_field :address %>
-  </div>
-  <div class="field">
-    <%= f.label :apartment %><br />
-    <%= f.text_field :apartment %>
-  </div>
-  <div class="field">
-    <%= f.label :city %><br />
-    <%= f.text_field :city %>
-  </div>
-  <div class="field">
-    <%= f.label :state %><br />
-    <%= f.text_field :state %>
-  </div>
-  <div class="field">
-    <%= f.label :zip %><br />
-    <%= f.text_field :zip %>
-  </div>
-  <div class="field">
-    <%= f.label :country %><br />
-    <%= f.text_field :country %>
-  </div>
-  <div class="field">
-    <%= f.label :phone %><br />
-    <%= f.number_field :phone %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+<tr><td class="label_td"><%= label_tag :address %>:</td><td><%= text_area_tag :address, r.address %><td></tr>
+<tr><td class="label_td"><%= label_tag :apt %>:</td><td><%= text_field_tag :apartment, r.apartment, size: 5, maxlength: 5 %><td></tr>
+<tr><td class="label_td"><%= label_tag :city %>:</td><td><%= text_field_tag :city, r.city %><td></tr>
+<tr><td class="label_td"><%= label_tag :state %>:</td><td><%= text_field_tag :state, r.state, size: 2, maxlength: 2 %><td></tr>
+<tr><td class="label_td"><%= label_tag :zip %>:</td><td><%= text_field_tag :zip, r.zip, size: 5, maxlength: 5 %><td></tr>
+<%= telephone_form_row r.phone %>

@@ -1,0 +1,4 @@
+<b>Permanent Address:</b> (<%= link_to "Edit", '#', class: :edit_home_link, id: "edit_home_link_#{r.id}" %>)<br />
+&emsp;<%= r.address %><br />
+&emsp;<%= "#{r.city}, #{r.state}  #{r.zip}" %><br />
+&emsp;Phone:<%= number_to_phone(r.phone) %><br />
