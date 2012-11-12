@@ -1,0 +1,13 @@
+div.summer_residents_resident, div.summer_residents_home, div.summer_residents_bungalow {
+  padding:6px;
+  border:1px dotted black;
+  text-align:left;
+  form.update_resident_form, form.update_home_form, form.update_bungalow_form {
+    td.label_td {
+      text-align:right;
+    }
+    td.update_link_td {
+      text-align:center;
+    }
+  }
+}
