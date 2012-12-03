@@ -110,7 +110,7 @@ private
       user_exists = added_parent_info? pp
       parent.user = user_exists ? @current_user : User.initialize_without_password(pp[:email])
       parent = @current_user.resident if user_exists && @current_user.resident
-      [:first_name, :last_name].each { |col|
+      [:first_name, :last_name, :cell].each { |col|
         parent.__send__ "#{col}=", pp[col]
       }
       parent

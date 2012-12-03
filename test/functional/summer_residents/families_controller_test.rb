@@ -60,8 +60,8 @@ module SummerResidents
       @father = @family.father
       @father.user.destroy
       @controller.log_in_as users(:mom_user)
-      @father_hash = { first_name: @father.first_name, last_name: @father.last_name, email: @father.email }
-      @mother_hash = { first_name: @mother.first_name, last_name: @mother.last_name, email: @mother.email }
+      @father_hash = { first_name: @father.first_name, last_name: @father.last_name, email: @father.email, cell: @father.cell }
+      @mother_hash = { first_name: @mother.first_name, last_name: @mother.last_name, email: @mother.email, cell: @mother.cell }
     end
 
     EMAIL_LINE_INTRO = "Before you can log into your account, you must set your password by following this link: http://#{Rails.application.config.action_mailer.default_url_options[:host]}/reset_password\\?uuid="
@@ -77,7 +77,9 @@ module SummerResidents
     end
 
     def when_creating_family_from_user adding_user_info=true
-      args = { mother: @mother_hash, father: { first_name: @father.first_name, last_name: @father.last_name, email: @user.email } }
+      father_hash = @father_hash
+      father_hash[:email] = @user.email
+      args = { mother: @mother_hash, father: father_hash }
       args[:adding_user_info] = "1" if adding_user_info
       post :create, args
     end
@@ -99,7 +101,7 @@ module SummerResidents
       mother = @fam.mother
       assert mother
       assert mother.user
-      [:first_name, :last_name].each { |attr|
+      [:first_name, :last_name, :cell].each { |attr|
         assert_equal @father.__send__(attr), father.__send__(attr)
         assert_equal @mother.__send__(attr), mother.__send__(attr)
       }

@@ -9,6 +9,7 @@
         <th></th>
         <th>First name</th>
         <th>Last name</th>
+        <th>Cell</th>
         <th>Email</th>
       </tr>
       <%= hidden_field_tag "adding_user_info", 1 if adding_user_info? %>
@@ -19,6 +20,7 @@
           <% [:first, :last].each do |n| %>
             <td><%= text_field_tag "#{p}[#{n}_name]", resident.__send__("#{n}_name"), :size => 16 %></td>
           <% end %>
+          <%= telephone_form_input resident.cell, "#{p}[cell]" %>
           <td><%= email_field_tag "#{p}[email]", resident.user ? resident.email : "", :size => 16 %></td>
         </tr>
       <% end %>
