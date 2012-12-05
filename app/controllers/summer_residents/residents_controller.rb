@@ -9,9 +9,8 @@ module SummerResidents
       create_and_assign_to_family
       assign_attributes
       @instance.user = User.initialize_without_password(email_param)
-      success = @instance.save
-      EasyRailsAuthentication::AuthenticationHelper.SendPasswordInitializationEmailTo @instance.email if success
-      show_unless_errors success
+      EasyRailsAuthentication::AuthenticationHelper.SendPasswordInitializationEmailTo @instance.email if @instance.save
+      show_unless_errors
     end
 
     # PUT /residents/1
@@ -20,7 +19,7 @@ module SummerResidents
       @instance = Resident.find(params[:id])
       assign_attributes
       @instance.user.email = email_param
-      show_unless_errors @instance.save
+      show_unless_errors
     end
 
     helper_method :locals

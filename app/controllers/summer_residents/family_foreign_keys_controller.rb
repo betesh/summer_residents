@@ -16,13 +16,13 @@ module SummerResidents
     def create
       create_and_assign_to_family
       assign_attributes
-      show_unless_errors @instance.save
+      show_unless_errors
     end
 
     def update
       @instance = model_name.find(params[:id])
       assign_attributes
-      show_unless_errors @instance.save
+      show_unless_errors
     end
 
     def destroy
@@ -48,7 +48,7 @@ module SummerResidents
     end
 
     def js_name
-      "#{controller_name.classify.underscore}"
+      controller_name.classify.underscore
     end
 
     def edit_but_if_cancelled x
@@ -57,9 +57,9 @@ module SummerResidents
       end
     end
 
-    def show_unless_errors if_save
+    def show_unless_errors
       respond_to do |format|
-        format.js { render action: (if_save ? :show : :errors) }
+        format.js { render action: (@instance.valid? ? :show : :errors) }
       end
     end
 
@@ -67,6 +67,7 @@ module SummerResidents
       model_attributes.each { |f|
         @instance.__send__ "#{f}=", params[f]
       }
+      @instance.save
     end
   end
 end
