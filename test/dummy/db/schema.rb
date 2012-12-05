@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120921131328) do
+ActiveRecord::Schema.define(:version => 20121205151540) do
 
   create_table "password_recoveries", :force => true do |t|
     t.integer  "user_id"
@@ -26,9 +26,9 @@ ActiveRecord::Schema.define(:version => 20120921131328) do
   create_table "summer_residents_bungalows", :force => true do |t|
     t.string   "name"
     t.string   "unit"
-    t.integer  "phone"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.decimal  "phone",      :precision => 10, :scale => 0
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
   create_table "summer_residents_families", :force => true do |t|
@@ -52,18 +52,18 @@ ActiveRecord::Schema.define(:version => 20120921131328) do
     t.string   "state"
     t.string   "zip"
     t.string   "country"
-    t.integer  "phone"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.decimal  "phone",      :precision => 10, :scale => 0
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
   create_table "summer_residents_residents", :force => true do |t|
     t.integer  "user_id"
     t.string   "first_name"
     t.string   "last_name"
-    t.integer  "cell"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.decimal  "cell",       :precision => 10, :scale => 0
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
   add_index "summer_residents_residents", ["user_id"], :name => "index_summer_residents_residents_on_user_id", :unique => true
