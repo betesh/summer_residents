@@ -5,7 +5,7 @@
 <% i = 0 %>
 <% @families.each do |family| %>
   <%= render :partial => 'show', :object => family, :as => :family %>
-  <% i += 1; i = i % 4; if (0 == i) then %><br /><% end %>
+  <% i += 1; i = i % SummerResidents.config.families_per_row; if (0 == i) then %><br /><% end %>
 <% end %>
 
 <br />
