@@ -5,12 +5,10 @@ type = (id) -> 'type='+$("div.summer_residents_family div#summer_residents_resid
 update_link = (id,model) -> $('div.summer_residents_family div.summer_residents_'+model+' a#update_'+model+'_link_'+id)
 show_link = (id,model) -> $('div.summer_residents_family div.summer_residents_'+model+' a#show_'+model+'_link_'+id)
 update_form = (id,model) -> $('div.summer_residents_family div.summer_residents_'+model+' form#update_'+model+'_form_'+id)
-delete_link = $('div.summer_residents_family a.delete_family_link')
+delete_link = -> $('div.summer_residents_family a.delete_family_link')
 url = (id,model) -> '/summer_residents/'+model+'s/'+id
 edit_or_new_url = (id,model) -> if id then (url(id,model) + "/edit") else (url("new",model))
 fam_id = (elem) -> 'fam_id='+SR.item_id('summer_residents_family', $(elem).parent().parent().attr('id'))+'&'
-
-delete_link.keep_centered()
 
 ajax_show = (id, fam, model, update) ->
   xhr
@@ -47,11 +45,11 @@ ajax_edit = (elem, model) ->
 set_edit_link = (model) -> edit_link(model).click -> ajax_edit(this, model)
 
 $ ->
-  delete_link.keep_centered()
+  delete_link().keep_centered()
 
   set_edit_link(model) for model in ['resident', 'bungalow', 'home']
 
-  delete_link.click ->
+  delete_link().click ->
     id = SR.item_id('delete_family_link', this.id)
     family = $(this).parent()
     xhr = $.ajax
