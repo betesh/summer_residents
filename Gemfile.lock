@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     summer_residents (0.0.8)
-      easy_rails_authentication (~> 0.0.6)
+      easy_rails_authentication (~> 0.0.8)
       rails (~> 3.2.8)
 
 GEM
@@ -47,14 +47,14 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
-    easy_rails_authentication (0.0.7)
-      bcrypt-ruby (~> 3.0.1)
-      center_html_elements (~> 0.0.5)
-      coffee-rails (~> 3.2.2)
-      jquery-rails (~> 2.1.3)
-      rails (~> 3.2.8)
-      sass-rails (~> 3.2.5)
-      validates_email_format_of (~> 1.5.3)
+    easy_rails_authentication (0.0.8)
+      bcrypt-ruby
+      center_html_elements (~> 0.0.7)
+      coffee-rails
+      jquery-rails
+      rails (~> 3.2.9)
+      sass-rails
+      validates_email_format_of
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
